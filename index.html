@@ -686,6 +686,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   .video-upload { margin-top: 10px; }
   .video-upload input[type="file"] { font-family: 'Heebo', sans-serif; font-size: 12px; padding: 8px; border: 2px dashed #ddd; border-radius: 8px; width: 100%; cursor: pointer; }
 
+@keyframes toastIn { from { transform: translateX(-50%) translateY(-20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
 </style>
 </head>
 <body>
@@ -836,7 +837,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'1')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'1')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'1')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'1')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'1')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -940,7 +941,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'2')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'2')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'2')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'2')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'2')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1017,7 +1018,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'3')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'3')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'3')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'3')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'3')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1124,7 +1125,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'4')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'4')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'4')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'4')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'4')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1226,7 +1227,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'5')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'5')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'5')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'5')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'5')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1339,7 +1340,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'6')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'6')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'6')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'6')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'6')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1449,7 +1450,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'7')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'7')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'7')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'7')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'7')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1545,7 +1546,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'8')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'8')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'8')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'8')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'8')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1649,7 +1650,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'9')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'9')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'9')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'9')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'9')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1754,7 +1755,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'10')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'10')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'10')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'10')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'10')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1856,7 +1857,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'11')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'11')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'11')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'11')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'11')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -1966,7 +1967,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'12')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'12')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'12')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'12')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'12')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2091,7 +2092,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'13')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'13')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'13')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'13')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'13')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2203,7 +2204,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'14')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'14')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'14')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'14')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'14')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2280,7 +2281,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'15')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'15')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'15')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'15')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'15')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2387,7 +2388,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'16')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'16')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'16')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'16')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'16')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2493,7 +2494,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'17')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'17')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'17')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'17')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'17')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2603,7 +2604,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'18')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'18')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'18')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'18')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'18')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2714,7 +2715,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'19')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'19')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'19')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'19')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'19')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2826,7 +2827,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'20')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'20')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'20')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'20')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'20')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -2942,7 +2943,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="sched-actions">
             <button class="schedule-btn" onclick="publishNow(this,'21')">🚀 פרסם עכשיו</button>
             <button class="schedule-btn-secondary" onclick="schedulePost(this,'21')">📅 תזמן לפרסום</button>
-            <button class="schedule-btn-outline" onclick="scheduleToBuffer(this,'21')">📤 פתח ב-Buffer</button>
+            <button class="schedule-btn-secondary" onclick="scheduleToBuffer(this,'21')">📤 תזמן ב-Buffer</button>
             <button class="schedule-btn-outline" onclick="copyPostContent(this,'21')">📋 העתק הכל</button>
           </div>
           <div class="video-upload">
@@ -3976,11 +3977,32 @@ function ensureApiKey() {
 
 function scheduleToBuffer(btn, postNum) {
   const card = btn.closest('.post-card');
-  const caption = card.querySelector('.caption-box')?.textContent || '';
-  const hashtags = Array.from(card.querySelectorAll('.hashtag')).map(h => h.textContent).join(' ');
-  const fullText = caption + '\n\n' + hashtags;
-  const encoded = encodeURIComponent(fullText.substring(0, 2000));
-  window.open('https://publish.buffer.com/composer?text=' + encoded, '_blank');
+  const content = getPostContent(card);
+  const fullText = content.fullText;
+  
+  // Copy to clipboard first (more reliable than URL params for Hebrew)
+  navigator.clipboard.writeText(fullText).then(() => {
+    // Show toast notification
+    showToast('📋 התוכן הועתק ללוח! הדבק ב-Buffer ולחץ Schedule', 'success');
+    
+    // Open Buffer Composer
+    const encoded = encodeURIComponent(fullText.substring(0, 2000));
+    window.open('https://publish.buffer.com/composer?text=' + encoded, '_blank');
+    
+    // Update button state
+    btn.innerHTML = '✅ הועתק ונפתח!';
+    btn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+    btn.style.color = '#fff';
+    setTimeout(() => { 
+      btn.innerHTML = '📤 תזמן ב-Buffer';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 4000);
+  }).catch(() => {
+    // Fallback: just open Buffer with URL params
+    const encoded = encodeURIComponent(fullText.substring(0, 2000));
+    window.open('https://publish.buffer.com/composer?text=' + encoded, '_blank');
+  });
 }
 
 function togglePlatform(btn) {
@@ -4057,27 +4079,24 @@ function schedulePost(btn, postNum) {
   const timeVal = panel.querySelector('.sched-time')?.value;
   const content = getPostContent(card);
   
-  if (platforms.length === 0) { alert('בחר לפחות פלטפורמה אחת'); return; }
-  if (!dateVal) { alert('בחר תאריך לתזמון'); return; }
+  if (platforms.length === 0) { showToast('⚠️ בחר לפחות פלטפורמה אחת', 'error'); return; }
+  if (!dateVal) { showToast('⚠️ בחר תאריך לתזמון', 'error'); return; }
   
   // Save schedule to localStorage
-  const scheduleKey = 'horizon_schedule_' + postNum;
   const schedData = {
     postNum, platforms, date: dateVal, time: timeVal || '10:00',
     caption: content.fullText.substring(0, 500),
     title: content.title,
     scheduledAt: new Date().toISOString()
   };
-  localStorage.setItem(scheduleKey, JSON.stringify(schedData));
+  localStorage.setItem('horizon_schedule_' + postNum, JSON.stringify(schedData));
   
-  // Open Buffer with pre-filled content for actual scheduling
-  const encoded = encodeURIComponent(content.fullText.substring(0, 2000));
-  const platNames = platforms.map(p => ({instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn',tiktok:'TikTok'}[p])).join(', ');
-  
-  const openBuffer = confirm(`📅 תזמון נשמר!\n\n📆 ${dateVal} ${timeVal}\n📱 ${platNames}\n\nלפתוח את Buffer כדי לתזמן בפועל?`);
-  if (openBuffer) {
+  // Copy content and open Buffer
+  navigator.clipboard.writeText(content.fullText).then(() => {
+    const encoded = encodeURIComponent(content.fullText.substring(0, 2000));
     window.open('https://publish.buffer.com/composer?text=' + encoded, '_blank');
-  }
+    showToast('📅 תוזמן ל-' + dateVal + ' ' + (timeVal || '10:00') + ' | התוכן הועתק — הדבק ב-Buffer', 'success');
+  });
   
   btn.innerHTML = '✅ תוזמן!';
   btn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
@@ -4153,6 +4172,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+
+function showToast(message, type) {
+  const existing = document.querySelector('.horizon-toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'horizon-toast';
+  toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:99999;padding:14px 28px;border-radius:12px;font-family:Heebo,sans-serif;font-size:15px;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,0.2);animation:toastIn 0.3s ease;max-width:90vw;text-align:center;' + (type === 'success' ? 'background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;' : 'background:linear-gradient(135deg,#fc9f67,#E1306C);color:#fff;');
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 4000);
+}
 
 </script>
 
