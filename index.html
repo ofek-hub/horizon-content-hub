@@ -687,6 +687,35 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   .video-upload input[type="file"] { font-family: 'Heebo', sans-serif; font-size: 12px; padding: 8px; border: 2px dashed #ddd; border-radius: 8px; width: 100%; cursor: pointer; }
 
 @keyframes toastIn { from { transform: translateX(-50%) translateY(-20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+
+/* === Toast Notifications === */
+@keyframes toastSlide {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* === Collapsible Days === */
+.day-divider { cursor: pointer; user-select: none; }
+.day-divider::after { content: ' \25BC'; font-size: 14px; margin-right: 8px; transition: transform 0.3s; }
+.day-divider.collapsed::after { transform: rotate(-90deg); }
+.day-posts-container { max-height: 50000px; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+.day-posts-container.collapsed { max-height: 0 !important; margin: 0; padding: 0; }
+
+/* === Move to Day Buttons === */
+.post-day-move { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; padding: 8px 12px; background: #f8f9fa; border-radius: 8px; align-items: center; }
+.post-day-move .move-label { font-size: 11px; color: #999; font-weight: 700; margin-left: 8px; }
+.move-day-btn { background: #e8f4f8; color: #32acc1; border: 1px solid #d0e8f0; padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'Heebo', sans-serif; transition: all 0.2s; }
+.move-day-btn:hover { background: #32acc1; color: white; }
+.move-day-btn.current-day { background: #32acc1; color: white; border-color: #32acc1; }
+
+/* === Files Help Banner === */
+.files-help-banner { background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border: 2px solid #27ae60; border-radius: 12px; padding: 16px 20px; margin-bottom: 25px; direction: rtl; font-size: 13px; line-height: 1.8; color: #2e7d32; }
+.files-help-banner strong { color: #1b5e20; }
+.files-help-banner .banner-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+
+/* === Week Divider === */
+.week-divider { background: linear-gradient(135deg, #fc9f67, #E1306C); color: white; padding: 14px 24px; border-radius: 12px; margin: 40px 0 20px; text-align: center; font-size: 20px; font-weight: 900; }
+
 </style>
 </head>
 <body>
@@ -725,9 +754,17 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
 
 
 <!-- ═══════════════════════ יום ראשון — 13 אפריל ═══════════════════════ -->
-<div class="day-divider">
+<div class="files-help-banner">
+<div class="banner-title">מדריך מהיר: איך לעבוד עם התוכן הזה?</div>
+<strong>קובץ מוכן / ריל עם הופעה</strong> — צריך לצלם את הריל באופן אישי לפי התסריט<br>
+<strong>תמונה מהונדסת / קרוסלה</strong> — לעצב ב-Canva או כלי עיצוב לפי הפרומפט<br>
+<strong>פרומפט לגרפיקה</strong> — לחץ על התיבה כדי להעתיק לקליפבורד → הדבק בג׳ימיני / Nano Banana
+</div>
+
+<div class="day-divider" data-day="1" onclick="toggleDay(this)">
   <h2>יום ראשון — <span>13 אפריל</span></h2>
   <div class="day-count">3 פוסטים</div>
+<div class="day-posts-container" data-day="1">
 </div>
 
 <!-- POST 1 -->
@@ -736,7 +773,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">1</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="1">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -789,7 +825,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · REEL COVER</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post01-reel-cover.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -810,7 +846,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 1)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 1)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-1"></div>
@@ -856,7 +892,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">2</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="2">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -914,7 +949,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 2)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 2)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-2"></div>
@@ -960,7 +995,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">3</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="3">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -991,7 +1025,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 3)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 3)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-3"></div>
@@ -1032,9 +1066,11 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
 </div>
 
 <!-- ═══════════════════════ יום שני — 14 אפריל ═══════════════════════ -->
-<div class="day-divider">
+</div>
+<div class="day-divider" data-day="2" onclick="toggleDay(this)">
   <h2>יום שני — <span>14 אפריל</span></h2>
   <div class="day-count">3 פוסטים</div>
+<div class="day-posts-container" data-day="2">
 </div>
 
 <!-- POST 4 -->
@@ -1043,7 +1079,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">4</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="4">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1098,7 +1133,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 4)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 4)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-4"></div>
@@ -1144,7 +1179,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">5</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="5">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1200,7 +1234,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 5)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 5)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-5"></div>
@@ -1246,7 +1280,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">6</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="6">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1299,7 +1332,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · STATIC POST</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post06-static-personal.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -1313,7 +1346,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 6)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 6)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-6"></div>
@@ -1354,9 +1387,11 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
 </div>
 
 <!-- ═══════════════════════ יום שלישי — 15 אפריל ═══════════════════════ -->
-<div class="day-divider">
+</div>
+<div class="day-divider" data-day="3" onclick="toggleDay(this)">
   <h2>יום שלישי — <span>15 אפריל</span></h2>
   <div class="day-count">3 פוסטים</div>
+<div class="day-posts-container" data-day="3">
 </div>
 
 <!-- POST 7 -->
@@ -1365,7 +1400,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">7</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="7">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1423,7 +1457,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 7)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 7)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-7"></div>
@@ -1469,7 +1503,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">8</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="8">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1519,7 +1552,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 8)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 8)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-8"></div>
@@ -1565,7 +1598,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">9</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="9">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1623,7 +1655,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 9)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 9)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-9"></div>
@@ -1664,9 +1696,11 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
 </div>
 
 <!-- ═══════════════════════ יום רביעי — 16 אפריל ═══════════════════════ -->
-<div class="day-divider">
+</div>
+<div class="day-divider" data-day="4" onclick="toggleDay(this)">
   <h2>יום רביעי — <span>16 אפריל</span></h2>
   <div class="day-count">3 פוסטים</div>
+<div class="day-posts-container" data-day="4">
 </div>
 
 <!-- POST 10 -->
@@ -1675,7 +1709,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">10</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="10">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1728,7 +1761,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 10)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 10)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-10"></div>
@@ -1774,7 +1807,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">11</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="11">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1830,7 +1862,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 11)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 11)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-11"></div>
@@ -1876,7 +1908,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">12</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="12">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -1922,7 +1953,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · STATIC POST</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post12-static-quote.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -1940,7 +1971,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 12)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 12)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-12"></div>
@@ -1981,9 +2012,11 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
 </div>
 
 <!-- ═══════════════════════ יום חמישי — 17 אפריל ═══════════════════════ -->
-<div class="day-divider">
+</div>
+<div class="day-divider" data-day="5" onclick="toggleDay(this)">
   <h2>יום חמישי — <span>17 אפריל</span></h2>
   <div class="day-count">3 פוסטים</div>
+<div class="day-posts-container" data-day="5">
 </div>
 
 <!-- POST 13 -->
@@ -1992,7 +2025,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">13</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="13">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2047,7 +2079,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · REEL COVER</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post13-reel-cover.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -2065,7 +2097,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 13)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 13)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-13"></div>
@@ -2111,7 +2143,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">14</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="14">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2159,7 +2190,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · CAROUSEL COVER</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post14-carousel.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -2177,7 +2208,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 14)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 14)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-14"></div>
@@ -2223,7 +2254,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">15</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="15">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2254,7 +2284,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 15)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 15)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-15"></div>
@@ -2295,9 +2325,11 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
 </div>
 
 <!-- ═══════════════════════ יום שישי — 18 אפריל ═══════════════════════ -->
-<div class="day-divider">
+</div>
+<div class="day-divider" data-day="6" onclick="toggleDay(this)">
   <h2>יום שישי — <span>18 אפריל</span></h2>
   <div class="day-count">3 פוסטים</div>
+<div class="day-posts-container" data-day="6">
 </div>
 
 <!-- POST 16 -->
@@ -2306,7 +2338,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">16</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="16">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2361,7 +2392,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 16)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 16)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-16"></div>
@@ -2407,7 +2438,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">17</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="17">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2449,7 +2479,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · INFOGRAPHIC</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post17-infographic.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -2467,7 +2497,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 17)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 17)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-17"></div>
@@ -2513,7 +2543,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">18</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="18">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2563,7 +2592,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · STATIC POST</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post18-static-personal.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -2577,7 +2606,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 18)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 18)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-18"></div>
@@ -2618,9 +2647,11 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
 </div>
 
 <!-- ═══════════════════════ שבת — 19 אפריל ═══════════════════════ -->
-<div class="day-divider">
+</div>
+<div class="day-divider" data-day="7" onclick="toggleDay(this)">
   <h2>שבת — <span>19 אפריל</span></h2>
   <div class="day-count">3 פוסטים</div>
+<div class="day-posts-container" data-day="7">
 </div>
 
 <!-- POST 19 -->
@@ -2629,7 +2660,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">19</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="19">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2688,7 +2718,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 19)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 19)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-19"></div>
@@ -2734,7 +2764,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">20</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="20">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2782,7 +2811,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · CAROUSEL COVER</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post20-carousel.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -2800,7 +2829,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 20)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 20)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-20"></div>
@@ -2846,7 +2875,6 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
     <div class="post-number">21</div><div class="status-pipeline">
         <select class="status-select status-draft" onchange="updateStatus(this)" data-post="21">
           <option value="idea" selected>💡 רעיון תוכן</option>
-          <option value="approved">✅ אושר</option>
           <option value="approved">✅ מאושר</option>
           <option value="rejected">❌ נדחה</option>
           <option value="published">📢 פורסם</option>
@@ -2898,7 +2926,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
           <div class="gen-label">NANO BANANA 2 · REEL COVER</div>
           <div class="gen-btns">
             <button class="gen-dl" onclick="dlImg(this,'post21-reel-cover.png')">📥 הורד</button>
-            <button class="gen-up" onclick="upImg(this)">✨ שדרג</button>
+            <button class="gen-up" style="display:none">✨ שדרג</button>
           </div>
         </div>
       </div>
@@ -2916,7 +2944,7 @@ body { font-family: 'Heebo', sans-serif; background: #f0f2f5; color: #1a1a2e; li
   
       <div class="section lead-magnet-section">
         <div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>
-        <button class="lead-magnet-btn" onclick="genLeadMagnet(this, 21)">
+        <button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, 21)">
           <span>✨ צור מגנט לידים אוטומטי</span>
         </button>
         <div class="lead-magnet-output" id="lm-21"></div>
@@ -3156,6 +3184,7 @@ AI בלי ידע = רעש.
 </div>
 
 <!-- Chat FAB + Panel -->
+</div>
 <button class="chat-fab" id="chatFab" title="שדרוג תוכן">✏️</button>
 
 <div class="chat-panel" id="chatPanel">
@@ -3405,7 +3434,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // API_KEY is now managed via localStorage and prompt
 const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const IMG_MODEL = 'google/gemini-3.1-flash-image-preview';
 const TXT_MODEL = 'google/gemini-2.5-flash';
 let aiImgCounter = 0;
 
@@ -3511,39 +3539,7 @@ async function callAPI(model, content) {
 const BRAND_COLORS = ['#fc9f67', '#32acc1', '#ffffff'];
 let colorRotation = 0;
 
-async function upImg(btn) {
-  const wrap = btn.closest('.gen-wrap');
-  const img = wrap.querySelector('.gen-thumb');
-  const card = btn.closest('.post-card');
-  let basePrompt = '';
-  const pb = card ? card.querySelector('.prompt-box') : null;
-  if (pb) basePrompt = pb.textContent.trim();
-
-  const mods = window.prompt('מה לשנות/לשפר? (השאר ריק ליצירה מחדש)', '');
-  if (mods === null) return;
-
-  // Auto-rotate accent color
-  const accentColor = BRAND_COLORS[colorRotation % 3];
-  colorRotation++;
-  const colorName = accentColor === '#fc9f67' ? 'orange' : accentColor === '#32acc1' ? 'teal' : 'white';
-
-  let finalPrompt = basePrompt || 'Create a premium Instagram graphic with dark navy #121725 background, bold typography, Hebrew text. Main accent color: ' + accentColor;
-  finalPrompt += '\n\nIMPORTANT: The MAIN accent/highlight color for this graphic MUST be ' + accentColor + ' (' + colorName + '). Use it for the dominant text/number/element.';
-  if (mods.trim()) finalPrompt += '\n\nModifications: ' + mods;
-
-  btn.textContent = '⏳'; btn.disabled = true;
-  try {
-    const d = await callAPI(IMG_MODEL, finalPrompt);
-    const images = d?.choices?.[0]?.message?.images || [];
-    if (images[0]?.image_url?.url) {
-      img.src = images[0].image_url.url;
-      img.className = 'gen-thumb border-' + colorName + (img.classList.contains('ar-story') ? ' ar-story' : '');
-      btn.textContent = '✅';
-    } else btn.textContent = '❌';
-  } catch(e) { btn.textContent = '❌'; console.error(e); }
-  setTimeout(() => { btn.textContent = '✨ שדרג'; btn.disabled = false; }, 2000);
-}
-
+async 
 // ══════════════════════════════════════════════
 // DEEP BRAND CONTEXT — FROM OBSIDIAN VAULT
 // ══════════════════════════════════════════════
@@ -3632,29 +3628,8 @@ YouTube + TikTok: @its_ofeklugasi
 `;
 
 // ═══ IMAGE GENERATION STYLE CONTEXT ═══
-const IMG_STYLE_CONTEXT = `CRITICAL DESIGN RULES:
-1. TYPOGRAPHY: Ultra-bold sans-serif (like Montserrat Black). Numbers MASSIVE — 3x larger than body. Hebrew = RTL.
-2. LAYOUT: Museum-quality spacing. ONE dominant element. Clear hierarchy.
-3. FINISH: Subtle film grain (5% opacity), soft vignette, slight text drop shadow.
-4. BRAND: Bottom watermark "@its_ofeklugasi | Horizon Group" in thin gray.
-5. QUALITY: Premium design agency quality. Bloomberg Terminal meets luxury brand.
-6. NO photos of people. Pure graphic design with typography and shapes.
-7. COLOR ROTATION: {accent_color} must be the DOMINANT accent color for this graphic.`;
 
-const PHOTO_STYLES = [
-  'Dark navy background, bold typography only, geometric shapes, Numeric Monument style',
-  'Professional photo of a confident Israeli businessman (27yo, short dark hair, well-dressed) speaking to camera, with bold text overlay on dark gradient',
-  'AI-generated realistic portrait of a young CEO at a modern office with city skyline, warm orange lighting, text overlay',
-  'Split image: left side shows stressed business owner with red tones, right side shows confident business owner with green/teal tones',
-  'Clean infographic style with icons, charts, and data visualization on dark background',
-  'Cinematic wide shot of a modern office with financial dashboards on screens, moody lighting, text overlay'
-];
 let photoStyleIdx = 0;
-function getNextPhotoStyle() {
-  const style = PHOTO_STYLES[photoStyleIdx % PHOTO_STYLES.length];
-  photoStyleIdx++;
-  return style;
-}
 
 
 // Color cycling for generated graphics
@@ -3663,7 +3638,6 @@ const COLOR_CYCLE = [
   { hex: '#32acc1', name: 'teal', bg: '#121725' },
   { hex: '#ffffff', name: 'white', bg: '#121725' },
 ];
-let genColorIdx = 0;
 
 function getNextColor() {
   const c = COLOR_CYCLE[genColorIdx % COLOR_CYCLE.length];
@@ -3672,61 +3646,6 @@ function getNextColor() {
 }
 
 // ═══ Lead Magnet Generator ═══
-async function genLeadMagnet(btn, postNum) {
-  const card = btn.closest('.post-card');
-  const output = document.getElementById('lm-' + postNum);
-  if (!card || !output) return;
-
-  // Extract post context
-  const title = card.querySelector('.post-title')?.textContent || '';
-  const hook = card.querySelector('.hook-text')?.textContent || '';
-  const caption = card.querySelector('.caption-box')?.textContent || '';
-
-  btn.disabled = true;
-  btn.innerHTML = '<span>⏳ מייצר מגנט לידים...</span>';
-
-  const prompt = `You are a lead magnet creator for Horizon Group (קבוצת הורייזן) — Israeli financial services.
-
-Based on this Instagram post:
-Title: \${title}
-Hook: \${hook}
-Caption: \${caption.substring(0, 300)}
-
-Create a SHORT, POWERFUL lead magnet in Hebrew that:
-1. Provides immediate value related to the post topic
-2. Is 150-250 words (concise, actionable)
-3. Includes a checklist, mini-guide, or quick assessment
-4. Ends with a CTA to Horizon Group (DM "בדיקה" for free consultation)
-5. Uses Ofek's philosophy: "הנדסת רווח", looking at tomorrow not yesterday
-
-Format the lead magnet as clean HTML with:
-- A catchy title in <h3> tag
-- Content in <p> and <ul> tags
-- Important terms in <strong>
-- CTA in a highlighted <div> with background color
-
-Return ONLY the HTML. No explanation.`;
-
-  try {
-    const d = await callAPI(TXT_MODEL, prompt);
-    let content = d?.choices?.[0]?.message?.content || '';
-    // Clean markdown artifacts
-    content = content.replace(/```html?/g, '').replace(/```/g, '').trim();
-
-    output.innerHTML = '<div class="lead-magnet-preview">' + content + '</div>' +
-      '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">' +
-      '<button class="lead-magnet-dl" onclick="downloadLeadMagnet(this, ' + postNum + ')">📥 הורד כ-PDF</button>' +
-      '<button class="lead-magnet-dl" style="background:linear-gradient(135deg,#32acc1,#2196F3)" onclick="copyLeadMagnet(this, ' + postNum + ')">📋 העתק טקסט</button>' +
-      '</div>';
-
-    btn.innerHTML = '<span>✅ מגנט מוכן!</span>';
-  } catch(e) {
-    output.innerHTML = '<div style="color:#E74C3C;font-size:12px">שגיאה ביצירת מגנט: ' + e.message + '</div>';
-    btn.innerHTML = '<span>❌ נכשל</span>';
-  }
-  setTimeout(() => { btn.disabled = false; btn.innerHTML = '<span>✨ צור מגנט לידים אוטומטי</span>'; }, 3000);
-}
-
 function downloadLeadMagnet(btn, postNum) {
   const preview = document.querySelector('#lm-' + postNum + ' .lead-magnet-preview');
   if (!preview) return;
@@ -3864,7 +3783,7 @@ async function generateAndRender(prompt, label) {
       card += '<div class="post-badge ' + badge + '">' + typeLabel + '</div>';
       card += '<div class="color-dot" style="background:' + color.hex + '"></div>';
       card += '<div class="post-title">' + esc(p.title||'') + '</div>';
-      card += '<div class="status-pipeline"><select class="status-select status-draft" onchange="updateStatus(this)" data-post="ai-' + idx + '"><option value="idea" selected>💡 רעיון תוכן</option><option value="approved">✅ אושר</option><option value="approved">✅ מאושר</option><option value="rejected">❌ נדחה</option><option value="published">📢 פורסם</option></select></div>';
+      card += '<div class="status-pipeline"><select class="status-select status-draft" onchange="updateStatus(this)" data-post="ai-' + idx + '"><option value="idea" selected>💡 רעיון תוכן</option><option value="approved">✅ מאושר</option><option value="rejected">❌ נדחה</option><option value="published">📢 פורסם</option></select></div>';
       card += '</div><div class="post-body">';
 
       // Hook
@@ -3890,14 +3809,14 @@ async function generateAndRender(prompt, label) {
       window._imgPrompts[idx] = { prompt: p.image_prompt || '', color: color };
       card += '<div style="width:60px;height:60px;background:rgba(' + (color.hex === '#fc9f67' ? '252,159,103' : color.hex === '#32acc1' ? '50,172,193' : '200,200,200') + ',0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:2px dashed ' + color.hex + '">🖼️</div>';
       card += '<div class="gen-info"><div class="gen-label" style="color:' + color.hex + '">גרפיקה טרם נוצרה</div>';
-      card += '<div class="gen-btns"><button class="gen-dl" style="background:linear-gradient(135deg,' + color.hex + ',#E1306C);color:#fff;font-weight:700;padding:8px 16px" onclick="triggerGenImage(' + idx + ')">🎨 צור גרפיקה</button></div></div></div>';
+      card += '<div class="gen-btns"><button class="gen-dl" style="background:linear-gradient(135deg,' + color.hex + ',#E1306C);color:#fff;font-weight:700;padding:8px 16px" style="display:none">🎨 צור גרפיקה</button></div></div></div>';
       if (p.image_prompt) card += '<details style="margin-top:6px"><summary style="font-size:10px;color:#bbb;cursor:pointer">📋 prompt</summary><div class="prompt-box" style="font-size:10px;margin-top:4px;padding:10px">' + esc(p.image_prompt) + '</div></details>';
       card += '</div>';
 
       // Lead magnet section
       card += '<div class="section lead-magnet-section"><div class="section-title" style="color:#32acc1">🧲 מגנט לידים</div>';
       if (p.lead_magnet_idea) card += '<div style="font-size:12px;color:#666;margin-bottom:8px">' + esc(p.lead_magnet_idea) + '</div>';
-      card += '<button class="lead-magnet-btn" onclick="genLeadMagnet(this, \'ai-' + idx + '\')"><span>✨ צור מגנט לידים</span></button>';
+      card += '<button class="lead-magnet-btn" onclick="downloadLinkedMagnet(this, \'ai-' + idx + '\')"><span>✨ צור מגנט לידים</span></button>';
       card += '<div class="lead-magnet-output" id="lm-ai-' + idx + '"></div></div>';
 
       // Schedule section (visible when approved/published)
@@ -3919,44 +3838,7 @@ async function generateAndRender(prompt, label) {
 }
 
 // ═══ On-demand image generation trigger ═══
-function triggerGenImage(idx) {
-  if (!ensureApiKey()) return;
-  const data = window._imgPrompts?.[idx];
-  if (!data || !data.prompt) { alert('לא נמצא פרומפט לגרפיקה'); return; }
-  let imgPrompt = data.prompt.replace(/ACCENT_COLOR/g, data.color.hex);
-  // Add photo style diversity
-  const photoStyle = getNextPhotoStyle();
-  imgPrompt = IMG_STYLE_CONTEXT.replace('{accent_color}', data.color.hex + ' (' + data.color.name + ')') + '\nPhoto style for this graphic: ' + photoStyle + '\n\n' + imgPrompt;
-  // Update button to loading state
-  const wrap = document.getElementById('ai-img-' + idx);
-  if (wrap) {
-    const btn = wrap.querySelector('.gen-dl');
-    if (btn) { btn.textContent = '⏳ מייצר...'; btn.disabled = true; }
-  }
-  genCardImage(idx, imgPrompt, data.color);
-}
-
 // ═══ Generate image for a card ═══
-async function genCardImage(idx, prompt, color) {
-  try {
-    const d = await callAPI(IMG_MODEL, prompt);
-    const images = d?.choices?.[0]?.message?.images || [];
-    const wrap = document.getElementById('ai-img-' + idx);
-    if (!wrap) return;
-    if (images[0]?.image_url?.url) {
-      const url = images[0].image_url.url;
-      const aspect = prompt.includes('1080x1920') ? ' ar-story' : '';
-      wrap.innerHTML = '<img class="gen-thumb border-' + color.name + aspect + '" src="' + url + '" onclick="window.open(this.src)"/>' +
-        '<div class="gen-info"><div class="gen-label" style="color:' + color.hex + '">NANO BANANA 2 ✓ | ' + color.name.toUpperCase() + '</div>' +
-        '<div class="gen-btns">' +
-        '<button class="gen-dl" onclick="dlImg(this,\'horizon-ai-' + idx + '.png\')">📥 הורד</button>' +
-        '<button class="gen-up" onclick="upImg(this)">✨ שדרג</button></div></div>';
-    } else {
-      wrap.innerHTML = '<div style="width:60px;height:60px;background:rgba(231,76,60,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">❌</div>' +
-        '<div class="gen-info"><div class="gen-label" style="color:#E74C3C">יצירת גרפיקה נכשלה</div></div>';
-    }
-  } catch(e) { console.error('Image gen error:', e); }
-}
 
 // ═══ HTML escape ═══
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
@@ -4184,6 +4066,66 @@ function showToast(message, type) {
   document.body.appendChild(toast);
   setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 4000);
 }
+
+
+// === Lead Magnet File Mapping ===
+const LEAD_MAGNET_FILES = {
+  1:'10-בדיקת-בריאות-פיננסית.pdf', 2:'10-בדיקת-בריאות-פיננסית.pdf',
+  3:'01-תזרים-מזומנים.pdf', 4:'10-בדיקת-בריאות-פיננסית.pdf',
+  5:'02-גיוס-אשראי-צ׳קליסט.pdf', 6:'01-תזרים-מזומנים.pdf',
+  7:'01-תזרים-מזומנים.pdf', 8:'03-איחוד-הלוואות.pdf',
+  9:'10-בדיקת-בריאות-פיננסית.pdf', 10:'10-בדיקת-בריאות-פיננסית.pdf',
+  11:'07-הנדסת-תמחור.pdf', 12:'01-תזרים-מזומנים.pdf',
+  13:'01-תזרים-מזומנים.pdf', 14:'10-בדיקת-בריאות-פיננסית.pdf',
+  15:'10-בדיקת-בריאות-פיננסית.pdf', 16:'01-תזרים-מזומנים.pdf',
+  17:'10-בדיקת-בריאות-פיננסית.pdf', 18:'01-תזרים-מזומנים.pdf',
+  19:'06-תכנון-מס-2026.pdf', 20:'09-קריירה-CFO.pdf',
+  21:'10-בדיקת-בריאות-פיננסית.pdf'
+};
+
+function downloadLinkedMagnet(btn, postNum) {
+  const fileName = LEAD_MAGNET_FILES[postNum];
+  if (!fileName) { showToast('אין מגנט לידים מקושר לפוסט זה', 'error'); return; }
+  showToast('מגנט לידים: ' + fileName, 'success');
+}
+
+// === Collapsible Days ===
+function toggleDay(dayDivider) {
+  dayDivider.classList.toggle('collapsed');
+  const container = dayDivider.nextElementSibling;
+  if (container && container.classList.contains('day-posts-container')) {
+    container.classList.toggle('collapsed');
+  }
+  const dayNum = dayDivider.getAttribute('data-day');
+  if (dayNum) {
+    const collapsed = JSON.parse(localStorage.getItem('hub_collapsed_days') || '{}');
+    collapsed[dayNum] = dayDivider.classList.contains('collapsed');
+    localStorage.setItem('hub_collapsed_days', JSON.stringify(collapsed));
+  }
+}
+
+function loadCollapsedDays() {
+  const collapsed = JSON.parse(localStorage.getItem('hub_collapsed_days') || '{}');
+  document.querySelectorAll('.day-divider[data-day]').forEach(d => {
+    const num = d.getAttribute('data-day');
+    if (collapsed[num]) { d.classList.add('collapsed'); const c = d.nextElementSibling; if (c) c.classList.add('collapsed'); }
+  });
+}
+
+// === Prompt Box Click to Copy ===
+document.addEventListener('click', function(e) {
+  const pb = e.target.closest('.prompt-box');
+  if (!pb) return;
+  const text = (pb.innerText || pb.textContent || '').replace(/^(COPY TO GEMINI.*)/i, '').trim();
+  navigator.clipboard.writeText(text).then(function() {
+    pb.classList.add('copied');
+    showToast('פרומפט הועתק! הדבק בג\'ימיני / Nano Banana', 'success');
+    setTimeout(function() { pb.classList.remove('copied'); }, 2000);
+  });
+});
+
+// Init collapsible days on load
+document.addEventListener('DOMContentLoaded', loadCollapsedDays);
 
 </script>
 
